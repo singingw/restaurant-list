@@ -1,5 +1,6 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
+const routes = require('./routes')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -11,9 +12,7 @@ const port = process.env.PORT
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
-app.get('/', (req, res) => {
-  res.render('index')
-})
+app.use(routes)
 
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
