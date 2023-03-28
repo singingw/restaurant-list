@@ -2,6 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const exphbs = require('express-handlebars')
 const routes = require('./routes')
+const usePassport = require('./config/passport')
 require('./config/mongoose')
 
 if (process.env.NODE_ENV !== 'production') {
@@ -20,6 +21,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+usePassport(app)
 
 app.use(routes)
 
