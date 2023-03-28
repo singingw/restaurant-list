@@ -1,1 +1,103 @@
-<h1>1111</h1>
+<!-- search bar -->
+<div class="container search-bar">
+  <div class="search-bar-outer">
+    <div class="search-bar-inner">
+      <form action="/restaurant/search">
+        <h4 class="mb-2">尋找餐廳：</h4>
+        <div class="input-group">
+          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
+            value="{{keyword}}" value="" aria-describedby="search-button">
+          <div class="input-group-append">
+            <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- sort bar -->
+{{#if restaurants}}
+<form action="/filter?method=PUT" method="POST"
+  class="row d-flex mt-5 mx-auto justify-content-between align-items-center" style="max-width: 40vw;" id="filter"
+  onchange="filter.submit()">
+  <div class="mr-2">
+    <select class="form-select btn btn-outline-secondary btn-sm" id="sort" name="sort">
+      <option>排序</option>
+      <option value="name_asc"> 名稱 (A→Z)</option>
+      <option value="name_desc"> 名稱 (Z→A)</option>
+      <option value="rating_asc"> 評分 (1→5)</option>
+      <option value="rating_desc"> 評分 (5→1)</option>
+    </select>
+  </div>
+  <div class="row align-items-center">
+    <span class="mr-2" style="color: #dc3545; font-size: 16px; font-weight:500;"> 篩選條件： </span>
+    <div class="mx-1">
+      <select class="form-select btn btn-outline-secondary btn-sm" id="category" name="category">
+        <option value=".">類別</option>
+        <option>中東料理</option>
+        <option>日本料理</option>
+        <option>義式餐廳</option>
+        <option>美式</option>
+        <option>酒吧</option>
+        <option>咖啡</option>
+      </select>
+    </div>
+    <div class="mx-1">
+      <select class="form-select btn btn-outline-secondary btn-sm" id="rating" name="rating">
+        <option value="0">評分</option>
+        <option value="3.5">≥ 3.5顆星</option>
+        <option value="4">≥ 4顆星</option>
+        <option value="4.5">≥ 4.5顆星</option>
+        <option value="5">5顆星</option>
+      </select>
+    </div>
+    <div class="mx-1">
+      <a class="btn btn-danger btn-sm" href="/">Clear</a>
+    </div>
+  </div>
+</form>
+
+<!-- restaurant list -->
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-10 col-12 mx-auto">
+      <div class="card-columns">
+        {{#each restaurants}}
+        <a href="/restaurant/{{this._id}}" class="text-secondary">
+          <div class="card mb-3">
+            <img class="card-img-top" src="{{this.image}}" alt="{{this.name}}">
+            <div class="card-body p-3">
+              <h6 class="card-title mb-1">{{this.name}}</h6>
+
+              <div class="restaurant-category">
+                <i class="fas fa-utensils pr-2"></i> {{this.category}}
+              </div>
+              <div class="d-flex justify-content-between mt-1">
+                <span class="badge badge-pill badge-danger font-weight-normal">
+                  {{this.rating}}
+                  <i class="fas fa-star fa-xs"></i>
+                </span>
+                <div class="row justify-content-end mr-1">
+                  <a href="/restaurant/{{ this._id }}/edit" class="btn btn-outline-dark p-2 mr-1">編輯</a>
+                  <a href="/restaurant/{{ this._id }}" class="btn btn-outline-dark p-2 mr-1">更多</a>
+                  <form action="/restaurant/{{ this._id }}?_method=DELETE" method="post">
+                    <button type="submit" class="btn btn-outline-danger p-2">刪除</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+{{else}}
+<!-- 找不到 restaurant -->
+<div class="d-flex flex-column align-items-center mt-5 p-5 bg-light">
+  <h1 class="p-1">搜尋不到符合的餐廳</h1>
+  <p class="p-1">請嘗試輸入其他關鍵字</p>
+  <a class="btn btn-secondary btn-sm" href="/" role="button"> back <i class="fas fa-undo"></i></a>
+</div>
+{{/if}}

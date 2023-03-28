@@ -1,6 +1,7 @@
 const express = require('express')
 const session = require('express-session')
 const exphbs = require('express-handlebars')
+const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const routes = require('./routes')
 const usePassport = require('./config/passport')
@@ -13,12 +14,14 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express()
 const port = process.env.PORT
 
+app.use(express.static('public'))
+app.use(methodOverride('_method'))
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.use(express.urlencoded({ extended: true }))
 
 app.use(session({
-  secret: 'ThisIsMySecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))
