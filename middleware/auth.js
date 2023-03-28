@@ -4,5 +4,6 @@ module.exports = {
       return next()
     }
     res.redirect('/users/login')
+    req.flash('warning_msg', '請先登入才能使用！')
   }
 }
