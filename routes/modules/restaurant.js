@@ -39,6 +39,14 @@ router.get('/:restaurant_id', (req, res) => {
     .then(restaurant => res.render('show', { restaurant }))
     .catch(error => console.log(error))
 })
+router.delete('/:restaurant_id', (req, res) => {
+  const _id = req.params.restaurant_id
+  const userId = req.user._id
+  return Restaurant.findOne({ _id, userId })
+    .then(restaurant => restaurant.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
 router.get('/:restaurant_id/edit', (req, res) => {
   const _id = req.params.restaurant_id
   const userId = req.user._id
