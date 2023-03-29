@@ -43,7 +43,7 @@ router.delete('/:restaurant_id', (req, res) => {
   const _id = req.params.restaurant_id
   const userId = req.user._id
   return Restaurant.findOne({ _id, userId })
-    .then(restaurant => restaurant.remove())
+    .then(restaurant => restaurant.deleteOne())
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
