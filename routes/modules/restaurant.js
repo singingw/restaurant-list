@@ -31,4 +31,12 @@ router.get('/search', (req, res) => {
     .then(restaurants => res.render('index', { restaurants, keyword }))
     .catch(err => console.error(err))
 })
+router.get('/:restaurant_id', (req, res) => {
+  const _id = req.params.restaurant_id
+  const userId = req.user._id
+  return Restaurant.findOne({ _id, userId })
+    .lean()
+    .then(restaurant => res.render('show', { restaurant }))
+    .catch(error => console.log(error))
+})
 module.exports = router
