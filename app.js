@@ -12,7 +12,7 @@ if (process.env.NODE_ENV !== 'production') {
 }//判別開發環境
 
 const app = express()
-const port = process.env.PORT || 8080
+const port = 8080
 
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
